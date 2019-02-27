@@ -1,0 +1,1098 @@
+\documentclass[a4paper]{article}
+
+\usepackage[brazilian]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+
+% Pacote para a definição de novas cores
+\usepackage{xcolor}
+% Definindo novas cores
+\definecolor{verde}{rgb}{0.25,0.5,0.35}
+\definecolor{jpurple}{rgb}{0.5,0,0.35}
+\definecolor{darkgreen}{rgb}{0.0, 0.2, 0.13}
+%\definecolor{oldmauve}{rgb}{0.4, 0.19, 0.28}
+% Configurando layout para mostrar codigos Java
+\usepackage{listings}
+
+\newcommand{\estiloJava}{
+\lstset{
+    language=Java,
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{jpurple}\bfseries,
+    stringstyle=\color{red},
+    commentstyle=\color{verde},
+    morecomment=[s][\color{blue}]{/**}{*/},
+    extendedchars=true,
+    showspaces=false,
+    showstringspaces=false,
+    numbers=left,
+    numberstyle=\tiny,
+    breaklines=true,
+    backgroundcolor=\color{cyan!10},
+    breakautoindent=true,
+    captionpos=b,
+    xleftmargin=0pt,
+    tabsize=2
+}}
+
+\newcommand{\estiloR}{
+  \lstset{ %
+    language=R,                     % the language of the code
+    basicstyle=\footnotesize,       % the size of the fonts that are used for the code
+    numbers=left,                   % where to put the line-numbers
+    numberstyle=\tiny\color{gray},  % the style that is used for the line-numbers
+    stepnumber=1,                   % the step between two line-numbers. If it's 1, each line
+                                    % will be numbered
+    numbersep=5pt,                  % how far the line-numbers are from the code
+    backgroundcolor=\color{white},  % choose the background color. You must add \usepackage{color}
+    showspaces=false,               % show spaces adding particular underscores
+    showstringspaces=false,         % underline spaces within strings
+    showtabs=false,                 % show tabs within strings adding particular underscores
+    frame=single,                   % adds a frame around the code
+    rulecolor=\color{black},        % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. commens (green here))
+    tabsize=2,                      % sets default tabsize to 2 spaces
+    captionpos=b,                   % sets the caption-position to bottom
+    breaklines=true,                % sets automatic line breaking
+    breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
+    title=\lstname,                 % show the filename of files included with \lstinputlisting;
+                                    % also try caption instead of title
+    keywordstyle=\color{blue},      % keyword style
+    commentstyle=\color{darkgreen},   % comment style
+    stringstyle=\color{red},      % string literal style
+    escapeinside={\%*}{*)},         % if you want to add a comment within your code
+    morekeywords={*,...}          % if you want to add more keywords to the set
+}}
+
+\title{C.Y.B.E.R.P.U.N.K}
+\author{Amintas Victor}
+
+\begin{document}
+\maketitle
+
+\newpage
+
+\begin{abstract}
+    Neste livro estão contidas as regras utilizadas para mestrar e jogar RPG com o cenário Cyberpunk utilizando o meta-sistema GURPS Quarta Edição. Vale ressaltar que nem todas as regras foram utilizadas e o sistema foi adaptado para rolagens com d20.\newline
+\end{abstract}
+
+\tableofcontents
+
+\newpage
+
+\section{Regras Básicas}
+
+Para determinar o desempenho em um teste, utilizamos o Nível de Dificuldade obtido a partir dos Pontos de Atributo. Se o valor do d20 for igual ou superior ao Nível de Dificuldade, temos um sucesso, do contário, um fracasso.
+
+\begin{scriptsize}
+\estiloJava
+\begin{lstlisting}[label=lst:javacode]
+int pontos_de_atributo;
+int nivel_de_dificuldade = 20 - pontos_de_atributo;
+
+boolean teste(int valor_d20) {
+    return valor_d20 >= nivel_de_dificuldade;   
+}
+\end{lstlisting}
+\end{scriptsize}
+
+Dependendo da situação, aos testes podem ser impostas facilidades (reduzindo o nível de dificuldade) ou dificuldades (aumentando o nível).
+
+\begin{scriptsize}
+\estiloJava
+\begin{lstlisting}[label=lst:javacode]
+void facilitar() {
+    nivel_de_dificuldade --;   
+}
+
+void dificultar(){
+    nivel_de_dificuldade ++;
+}
+\end{lstlisting}
+\end{scriptsize}
+
+
+\section{Criação de Personagem}
+
+Para criar o personagem, cada jogador tem a disposição 100 Pontos de Personagem, os quais podem ser gastos com Vantagens, Atributos Básicos (e por sua vez Atributos Secundários), Perícias, e podem ser ganhos com Desvantagens (sendo 50 o máximo de ganho). Antecedentes e Constituição Física também fazem parte da criação do personagem, mas não são gastos pontos para elas.
+
+\subsection{Atributos Básicos}
+
+Os Atributos Básicos são: Força (ST), Destreza (DX), Inteligência (IQ) e Vitalidade (HT). O jogador pode aumentar os Pontos de Atributo gastando Pontos de Personagem, assim como pode ganhar Pontos de Personagem debitando Pontos de Atributo. 
+
+\begin{scriptsize}
+\estiloJava
+\begin{lstlisting}[label=lst:javacode]
+int st, dx, iq, vt = 10;
+int st.preco, vt.preco = 10;
+int dx.preco, iq.preco = 20;
+
+void comprarPontosDeAtributo(int atributo, int pontos){
+    pontos_de_personagem -= pontos * atributo.preco;
+    atributo += pontos;
+}
+
+void obterPontosDePersonagem(int atributo, int pontos){
+    atributo -= pontos;
+    pontos_de_personagem += pontos * atributo.preco;
+}
+\end{lstlisting}
+\end{scriptsize}
+
+
+\subsection{Atributos Secundários}
+
+Os atributos secundários tem seu valor derivado dos atributos básicos, mas que também podem ser melhorados isoladamente gastando Pontos de Atributo. Os atributos secundários estão listados a seguir:
+
+\subsubsection{Dano}
+
+É divido em duas categorias: o Golpe de Ponta (GdP),que corresponde ao ataque desarmado e às perfurações, e o Golpe em Balanço (GeB), que corresponde ao ataque físico armado e ataques que descrevem um arco. Dependendo da ST, seu valor está descrito na tabela abaixo:
+
+% ######## init table ########
+\begin{table}[h]
+ \centering
+% distancia entre a linha e o texto
+ {\renewcommand\arraystretch{1.25}
+ \begin{tabular}{ l l l }
+  \cline{1-1}\cline{2-2}\cline{3-3}  
+    \multicolumn{1}{|c|}{ST \centering } &
+    \multicolumn{1}{c|}{GdP \centering } &
+    \multicolumn{1}{c|}{GeB \centering }
+  \\  
+  \cline{1-1}\cline{2-2}\cline{3-3}  
+    \multicolumn{1}{|c|}{1 \centering } &
+    \multicolumn{1}{c|}{1d6-6 \centering } &
+    \multicolumn{1}{c|}{1d6-5 \centering }
+  \\  
+  \cline{1-1}\cline{2-2}\cline{3-3}  
+    \multicolumn{1}{|c|}{2 \centering } &
+    \multicolumn{1}{c|}{1d6-6 \centering } &
+    \multicolumn{1}{c|}{1d6-5 \centering }
+  \\  
+  \cline{1-1}\cline{2-2}\cline{3-3}  
+    \multicolumn{1}{|c|}{3 \centering } &
+    \multicolumn{1}{c|}{1d6-5 \centering } &
+    \multicolumn{1}{c|}{1d6-4 \centering }
+  \\  
+  \cline{1-1}\cline{2-2}\cline{3-3}  
+    \multicolumn{1}{|c|}{4 \centering } &
+    \multicolumn{1}{c|}{1d6-5 \centering } &
+    \multicolumn{1}{c|}{1d6-4 \centering }
+  \\  
+  \cline{1-1}\cline{2-2}\cline{3-3}  
+    \multicolumn{1}{|c|}{5 \centering } &
+    \multicolumn{1}{c|}{1d6-4 \centering } &
+    \multicolumn{1}{c|}{1d6-3 \centering }
+  \\  
+  \cline{1-1}\cline{2-2}\cline{3-3}  
+    \multicolumn{1}{|c|}{6 \centering } &
+    \multicolumn{1}{c|}{1d6-4 \centering } &
+    \multicolumn{1}{c|}{1d6-3 \centering }
+  \\  
+  \cline{1-1}\cline{2-2}\cline{3-3}  
+    \multicolumn{1}{|c|}{7 \centering } &
+    \multicolumn{1}{c|}{1d6-3 \centering } &
+    \multicolumn{1}{c|}{1d6-2 \centering }
+  \\  
+  \cline{1-1}\cline{2-2}\cline{3-3}  
+    \multicolumn{1}{|c|}{8 \centering } &
+    \multicolumn{1}{c|}{1d6-3 \centering } &
+    \multicolumn{1}{c|}{1d6-2 \centering }
+  \\  
+  \cline{1-1}\cline{2-2}\cline{3-3}  
+    \multicolumn{1}{|c|}{9 \centering } &
+    \multicolumn{1}{c|}{1d6-2 \centering } &
+    \multicolumn{1}{c|}{1d6-1 \centering }
+  \\  
+  \cline{1-1}\cline{2-2}\cline{3-3}  
+    \multicolumn{1}{|c|}{10 \centering } &
+    \multicolumn{1}{c|}{1d6-2 \centering } &
+    \multicolumn{1}{c|}{1d6 \centering }
+  \\  
+  \cline{1-1}\cline{2-2}\cline{3-3}  
+    \multicolumn{1}{|c|}{11 \centering } &
+    \multicolumn{1}{c|}{1d6-1 \centering } &
+    \multicolumn{1}{c|}{1d6+1 \centering }
+  \\  
+  \cline{1-1}\cline{2-2}\cline{3-3}  
+    \multicolumn{1}{|c|}{12 \centering } &
+    \multicolumn{1}{c|}{1d6-1 \centering } &
+    \multicolumn{1}{c|}{1d6+2 \centering }
+  \\  
+  \cline{1-1}\cline{2-2}\cline{3-3}  
+    \multicolumn{1}{|c|}{13 \centering } &
+    \multicolumn{1}{c|}{1d6 \centering } &
+    \multicolumn{1}{c|}{2d6-1 \centering }
+  \\  
+  \cline{1-1}\cline{2-2}\cline{3-3}  
+    \multicolumn{1}{|c|}{14 \centering } &
+    \multicolumn{1}{c|}{1d6 \centering } &
+    \multicolumn{1}{c|}{2d6 \centering }
+  \\  
+  \cline{1-1}\cline{2-2}\cline{3-3}  
+    \multicolumn{1}{|c|}{15 \centering } &
+    \multicolumn{1}{c|}{1d6+1 \centering } &
+    \multicolumn{1}{c|}{2d6+1 \centering }
+  \\  
+  \cline{1-1}\cline{2-2}\cline{3-3}  
+    \multicolumn{1}{|c|}{16 \centering } &
+    \multicolumn{1}{c|}{1d6+1 \centering } &
+    \multicolumn{1}{c|}{2d6+2 \centering }
+  \\  
+  \cline{1-1}\cline{2-2}\cline{3-3}  
+    \multicolumn{1}{|c|}{17 \centering } &
+    \multicolumn{1}{c|}{1d6+2 \centering } &
+    \multicolumn{1}{c|}{3d6-1 \centering }
+  \\  
+  \cline{1-1}\cline{2-2}\cline{3-3}  
+    \multicolumn{1}{|c|}{18 \centering } &
+    \multicolumn{1}{c|}{1d6+2 \centering } &
+    \multicolumn{1}{c|}{3d6 \centering }
+  \\  
+  \cline{1-1}\cline{2-2}\cline{3-3}  
+    \multicolumn{1}{|c|}{19 \centering } &
+    \multicolumn{1}{c|}{2d6-1 \centering } &
+    \multicolumn{1}{c|}{3d6+1 \centering }
+  \\  
+  \cline{1-1}\cline{2-2}\cline{3-3}  
+    \multicolumn{1}{|c|}{20 \centering } &
+    \multicolumn{1}{c|}{2d6 \centering } &
+    \multicolumn{1}{c|}{3d6+2 \centering }
+  \\  
+  \hline
+
+ \end{tabular} }
+\end{table}
+
+\subsubsection{Base de Carga (BC)}
+
+Corresponde ao quanto o personagem consegue carregar em Kg. Seu inventário, mesmo não considerando as dimenções do que é carregado, está diretamente relacionado a essa característica. 
+
+\begin{scriptsize}
+\estiloJava
+\begin{lstlisting}[label=lst:javacode]
+int bc = (st**2)/10
+\end{lstlisting}
+\end{scriptsize}
+
+\subsubsection{Pontos de Vida (PV)}
+Se refere à energia vital do personagem. É indicado pela HT. Pontos Extras valem 2 Pontos de Personagem, podendo ser comprados ou debitados para obter mais Pontos de Personagem.
+
+\begin{scriptsize}
+\estiloJava
+\begin{lstlisting}[label=lst:javacode]
+int pv = ht;
+int pv.preco = 2;
+
+void pontosExtras(int pontos){
+    if(0.7ht =< pv + pontos =< 1.3ht){
+        pontos_de_personagem -= pv.preco * pontos;
+        pv += pontos;
+    }
+}
+\end{lstlisting}
+\end{scriptsize}
+
+\subsubsection{Vontade}
+
+Está diretamente ligada à resistência mental, estrutura psicológica, e ao controle emocional do personagem. É indicado pela IQ. Pontos Extras valem 5 Pontos de Personagem, podendo ser comprados ou debitados para obter mais Pontos de Personagem.
+
+\begin{scriptsize}
+\estiloJava
+\begin{lstlisting}[label=lst:javacode]
+int vontade = iq;
+int vontade.preco = 5;
+
+void pontosExtras(int pontos){
+    if(0.7iq =< vontade + pontos =< 1.3iq){
+        pontos_de_personagem -= vontade.preco * pontos;
+        vontade += pontos;
+    }
+}
+\end{lstlisting}
+\end{scriptsize}
+
+\subsubsection{Percepção}
+
+Se refere a capacidade de observação, análise e dedução do personagem. É indicado pela IQ. Pontos Extras valem 5 Pontos de Personagem, podendo ser comprados ou debitados para obter mais Pontos de Personagem.
+
+\begin{scriptsize}
+\estiloJava
+\begin{lstlisting}[label=lst:javacode]
+int percepcao = iq;
+int percepcao.preco = 5;
+void pontosExtras(int pontos){
+    if(0.7iq =< percepcao + pontos =< 1.3iq){
+        pontos_de_personagem -= percepcao.preco * pontos;
+        percepcao += pontos;
+    }
+}
+\end{lstlisting}
+\end{scriptsize}
+
+\subsubsection{Fadiga}
+
+A fadiga representa a perda de energia e vigor físico. É indicada pela HT. Pontos Extras valem 3 Pontos de Personagem, podendo ser comprados ou debitados para obter mais Pontos de Personagem.
+
+\begin{scriptsize}
+\estiloJava
+\begin{lstlisting}[label=lst:javacode]
+int fadiga = ht;
+int fadiga.preco = 3;
+void pontosExtras(int pontos){
+    if(0.7ht =< fadiga + pontos =< 1.3ht){
+        pontos_de_personagem -= fadiga.preco * pontos;
+        fadiga += pontos;
+    }
+}
+\end{lstlisting}
+\end{scriptsize}
+
+\subsubsection{Iniciativa}
+
+Representa a velocidade que um personagem tem em executar alguma ação. Está diretamente ligada ao turno em um combate. 0,25 Ponto Extra vale 5 Pontos de Personagem, podendo ser comprados ou debitados (no máximo 2) para obter mais Pontos de Personagem.
+
+\begin{scriptsize}
+\estiloJava
+\begin{lstlisting}[label=lst:javacode]
+int iniciativa = (ht + dx)/4;
+int iniciativa.preco = 5;
+
+void pontosExtras(int pontos){
+    if(pontos =< 2){
+        pontos_de_personagem -= (iniciativa.preco * 4) * pontos;
+        iniciativa += pontos;
+    }
+}
+\end{lstlisting}
+\end{scriptsize}
+
+\subsubsection{Esquiva}
+
+Representa a habilidade que um personagem tem em se desviar de um golpe. Está diretamente ligada à Jogada de Defesa em um combate.
+
+\begin{scriptsize}
+\estiloJava
+\begin{lstlisting}[label=lst:javacode]
+int esquiva = 20 - int(iniciativa + 3);
+\end{lstlisting}
+\end{scriptsize}
+
+
+\section{Antecedentes}
+
+Apesar do GURPS não se limitar a classes, os antecedentes de um personagem ajudam a classificá-lo em um estereótipo. Isso facilita a familiarizar com o personagem, seja na criação do mesmo, seja a interpretação do jogador, seja a compreenção pelo mestre. Seguem os principais antecedentes:\newline
+
+\begin{description}
+  \item[Assassino] \hfill \\ Um \textit{Pistoleiro} corporado, um \textit{Executor} que trabalha para organizações criminosas, ou um \textit{Mercenário} que trabalha para quem pagar mais...
+  \item[Corretor] \hfill \\ Um \textit{Negociante} do mercado negro, um \textit{Executivo} das grandes coorporações ou um \textit{Fixer}, que sempre sabe onde tem o que você precisa...
+  \item[Samurai Urbano] \hfill \\ Um guerreiro adepto físico, em uma época digital...
+  \item[Netrunner] \hfill \\ Um \textit{Hacker}, um especialista em software, ou um \textit{Técnico}, um especialista em hardware...
+  \item[Abutre] \hfill \\ Um repórter que busca sua notícia a qualquer preço...
+  \item[Médico] \hfill \\ Um remendão especializado em curar e melhorar organismos...
+  \item[Celebridade] \hfill \\ Onipresente na forma digital, exclusiva na forma física...
+  \item[Op] \hfill \\ Um simples operário em um ambiente hostil...
+  \item[Ladrão] \hfill \\ Um \textit{Gatuno}, um \textit{Assaltante} ou um \textit{Sequestrador}...
+  \item[Policial] \hfill \\ Um \textit{Tira Bom} ? Um \textit{Tira Mau} ? Ou um \textit{Investigador Particular} que se envolve...
+\end{description}
+
+\section{Vantagens}
+
+\begin{description}
+  \item[Aliado - 10 Pontos] \hfill \\ Esta pode ser uma vantagem muito útil para uma campanha cyberpunk. Se um personagem tiver um Aliado, ele terá pelo menos uma pessoa em quem pode confiar cegamente... Para obter resultados mais interessantes (e grupo mais equilibrados), o GM pode exigir que os Aliados sejam personagens de tipos diferentes. Ou, se todos os jogadores quiserem ser personagens de rua, o GM poderá sugerir que alguém crie um netrunner como Aliado, para que o grupo tenha um mago dos dados em que se possa confiar.
+  \item[Aparência - 5 Pontos] \hfill \\ Se o mundo desta campanha permitir fácil acesso à cirurgia
+cosmética, então qualquer um poderá ter bom aspecto. Por esses
+padrões melhorados, uma estrela de cinema do século 20 seria
+no máximo “atraente”. No entanto tudo é relativo: se sua
+aparência é boa o suficiente para obter uma reação +1 das
+pessoas à sua volta, isto lhe custa 5 pontos.
+  \item[Hierarquia Militar - 5 a 10 Pontos] \hfill \\ Em um mundo no qual as mega-corporações criam suas próprias
+milícias, hierarquia em tal organização pode ser tão significativa como
+num exército mantido pelo governo. Contudo, um líder mercenário
+pode estilizar-se como “Capitão” ou mesmo “Coronel” sem pagar os
+pontos de Hierarquia. Hierarquia Militar só é uma vantagem se a
+população em geral reconhecê-la e outros soldados a respeitarem.
+  \item[Poderes Legais - 5 a 15 Pontos] \hfill \\ A definição desta vantagem será ampliada em muitos mundos
+cyberpunk. Em alguns lugares, o governo prefere contratar
+empresas privadas para a tarefa de impor a lei. Dessa maneira,
+haverá indivíduos que terão o poder de impor a lei mas não
+estarão sob a supervisão direta da autoridade governamental.
+Poderá haver “polícia” que não responde às cortes e sim ao
+Presidente da Empresa!
+  \item[Patrono - 10 a 25 Pontos] \hfill \\ Em uma campanha em que cyberwear custam pontos, todos os
+personagens têm que pagar os pontos por qualquer coisa que seja
+permanentemente conectada a eles, ou que possam ser usadas fora de
+seu horáio de expediente — mesmo que suprida por um Patrono. Veja a tabela abaixo:
+
+% ######## init table ########
+\begin{table}[h]
+ \centering
+% distancia entre a linha e o texto
+ {\renewcommand\arraystretch{1.25}
+ \begin{tabular}{ l l }
+  \cline{1-1}\cline{2-2}  
+    \multicolumn{1}{|c|}{Patrono \centering } &
+    \multicolumn{1}{c|}{Pontos \centering }
+  \\  
+  \cline{1-1}\cline{2-2}  
+    \multicolumn{1}{|c|}{Indivíduo Poderosos \centering } &
+    \multicolumn{1}{c|}{10 a 15 \centering }
+  \\  
+  \cline{1-1}\cline{2-2}  
+    \multicolumn{1}{|c|}{Corporação Pequena \centering } &
+    \multicolumn{1}{c|}{15 a 25 \centering }
+  \\  
+  \cline{1-1}\cline{2-2}  
+    \multicolumn{1}{|c|}{Governo ou Grande Coorporação \centering } &
+    \multicolumn{1}{c|}{15 a 25 \centering }
+  \\  
+  \cline{1-1}\cline{2-2}  
+    \multicolumn{1}{|c|}{IA \centering } &
+    \multicolumn{1}{c|}{15 \centering }
+  \\  
+  \cline{1-1}\cline{2-2}  
+    \multicolumn{1}{|c|}{Grupo Revolucionário ou Máfia \centering } &
+    \multicolumn{1}{c|}{15 a 25 \centering }
+  \\  
+  \hline
+
+ \end{tabular} }
+\end{table}
+
+É claro que muitos Patronos fornecerão cyberwear. Isto não deve
+aumentar o valor em pontos do Patrono a menos que estes itens não
+estejam à disposição em qualquer outro lugar. Nesse caso aumente em
+5 pontos o valor do patrono, ou 10 se o equipamento for realmente
+muito valioso.
+  \item[Alfabetização - 10 Pontos] \hfill \\ À medida que o vídeo e a televisão se tornam mais e mais
+populares, a leitura pode tornar-se uma perícia “morta”. Seria
+adequado fazer com que o analfabetismo seja a norma em
+algumas campanhas, principalmente em ambientes pósholocausto
+e em mundos com uma grande população de nível
+servil. Neste tipo de cenário, a alfabetização torna-se uma
+vantagem de 10 pontos, do mesmo modo que é em sociedades
+bem primitivas.
+  \item[Antecedentes Incomuns - 10 a 40 Pontos] \hfill \\ Em algumas campanhas, a opção de se comprar melhorias
+cibernéticas ou genéticas não está disponível para o público em geral.
+Os personagens que quiserem comprar estas modificações terão que
+pagar um custo em pontos devido ao antecedente incomum antes de
+obtê-la.
+O custo em pontos depende de quão rara o GM queira tornar a cibertecnologia
+— variam entre “levemente incomum” e “somente disponível
+em laboratórios secretos ou experimentais”.
+% ######## init table ########
+\begin{table}[h]
+ \centering
+% distancia entre a linha e o texto
+ {\renewcommand\arraystretch{1.25}
+ \begin{tabular}{ l l }
+  \cline{1-1}\cline{2-2}  
+    \multicolumn{1}{|c|}{Raridade \centering } &
+    \multicolumn{1}{c|}{Pontos \centering }
+  \\  
+  \cline{1-1}\cline{2-2}  
+    \multicolumn{1}{|c|}{Incomum \centering } &
+    \multicolumn{1}{c|}{10 \centering }
+  \\  
+  \cline{1-1}\cline{2-2}  
+    \multicolumn{1}{|c|}{Raro \centering } &
+    \multicolumn{1}{c|}{15 \centering }
+  \\  
+  \cline{1-1}\cline{2-2}  
+    \multicolumn{1}{|c|}{Muito Raro \centering } &
+    \multicolumn{1}{c|}{25 \centering }
+  \\  
+  \cline{1-1}\cline{2-2}  
+    \multicolumn{1}{|c|}{Experimental \centering } &
+    \multicolumn{1}{c|}{40 \centering }
+  \\  
+  \hline
+
+ \end{tabular} }
+\end{table}
+  \item[Sorte] \hfill \\ Se os PCs enfrentam regularmente máquinas de combate
+ciber-melhoradas baratinadas por drogas e equipadas com
+armas de fogo ultra-modernas, é possível que seja necessário
+mais do que simples habilidade para se manter vivo. Esta
+vantagem é especialmente apropriada em campanha do tipo
+“cinematográfica”.
+% ######## init table ########
+\begin{table}[h]
+ \centering
+% distancia entre a linha e o texto
+ {\renewcommand\arraystretch{1.25}
+ \begin{tabular}{ l l }
+  \cline{1-1}\cline{2-2}  
+    \multicolumn{1}{|c|}{Sorte \centering } &
+    \multicolumn{1}{c|}{Pontos \centering }
+  \\  
+  \cline{1-1}\cline{2-2}  
+    \multicolumn{1}{|c|}{Comum \centering } &
+    \multicolumn{1}{c|}{15 \centering }
+  \\  
+  \cline{1-1}\cline{2-2}  
+    \multicolumn{1}{|c|}{Extraordinária \centering } &
+    \multicolumn{1}{c|}{30 \centering }
+  \\  
+  \cline{1-1}\cline{2-2}  
+    \multicolumn{1}{|c|}{Impossível \centering } &
+    \multicolumn{1}{c|}{60 \centering }
+  \\  
+  \hline
+
+ \end{tabular} }
+\end{table}
+  \item[Identidade Alternativa - 15 Pontos] \hfill \\ Você tem uma identidade extra, que sob todos os aspectos é
+legalmente estabelecida. Sua retina e impressões digitais são
+registradas sob dois nomes diferentes, você tem dois conjuntos
+de documentos, passaportes, certidões de nascimento, etc. Isto
+pode ser extremamente útil para qualquer um que esteja envolvido
+em atividades ilegais. Você pode comprar estas vantagens tantas
+vezes quantas desejar; cada uma lhe dará uma nova identidade.
+Embora a nova identidade possa incluir cartões-de-crédito e
+contas bancárias, todo o dinheiro destas contas deverá ser
+suprido pelo personagem — não vem junto com o pacote.
+  \item[Contatos - Variável] \hfill \\ Um contato é um NPC, como Aliado ou Patrono. No entanto, o
+Contato fornece apenas informações. Um Contato pode ser qualquer
+coisa desde um bêbado na esquina certa até o chefe de estado de um país,
+dependendo da formação do personagem. O Contato tem acesso à
+informação, e sabe-se com certeza que sua Reação diante do personagem
+é sempre favorável. O Contato pode querer uma quantia em dinheiro ou
+favores em troca da informação. O Contato é sempre representado e
+controlado pelo GM e a natureza da recompensa exigida deve ser
+estabelecida pelo GM.
+
+\textbf{Tipos de Contatos:}
+
+% ######## init table ########
+\begin{table}[h]
+ \centering
+% distancia entre a linha e o texto
+ {\renewcommand\arraystretch{1.25}
+ \begin{tabular}{ l l }
+  \cline{1-1}\cline{2-2}  
+    \multicolumn{1}{|c|}{Contatos de Rua \centering } &
+    \multicolumn{1}{c|}{Pontos \centering }
+  \\  
+  \cline{1-1}\cline{2-2}  
+    \multicolumn{1}{|c|}{Sem Conexão \centering } &
+    \multicolumn{1}{c|}{5 \centering }
+  \\  
+  \cline{1-1}\cline{2-2}  
+    \multicolumn{1}{|c|}{Com Conexão \centering } &
+    \multicolumn{1}{c|}{10 \centering }
+  \\  
+  \cline{1-1}\cline{2-2}  
+    \multicolumn{1}{|c|}{Figura Importante \centering } &
+    \multicolumn{1}{c|}{20 \centering }
+  \\  
+  \hline
+
+ \end{tabular} }
+\end{table}
+
+% ######## init table ########
+\begin{table}[h]
+ \centering
+% distancia entre a linha e o texto
+ {\renewcommand\arraystretch{1.25}
+ \begin{tabular}{ l l }
+  \cline{1-1}\cline{2-2}  
+    \multicolumn{1}{|c|}{Contatos de Negócio \centering } &
+    \multicolumn{1}{c|}{Pontos \centering }
+  \\  
+  \cline{1-1}\cline{2-2}  
+    \multicolumn{1}{|c|}{Mensageiro \centering } &
+    \multicolumn{1}{c|}{5 \centering }
+  \\  
+  \cline{1-1}\cline{2-2}  
+    \multicolumn{1}{|c|}{Secretário \centering } &
+    \multicolumn{1}{c|}{10 \centering }
+  \\  
+  \cline{1-1}\cline{2-2}  
+    \multicolumn{1}{|c|}{Contador \centering } &
+    \multicolumn{1}{c|}{15 \centering }
+  \\  
+  \cline{1-1}\cline{2-2}  
+    \multicolumn{1}{|c|}{Presidente \centering } &
+    \multicolumn{1}{c|}{20 \centering }
+  \\  
+  \hline
+
+ \end{tabular} }
+\end{table}
+
+\newpage
+
+% ######## init table ########
+\begin{table}[h]
+ \centering
+% distancia entre a linha e o texto
+ {\renewcommand\arraystretch{1.25}
+ \begin{tabular}{ l l }
+  \cline{1-1}\cline{2-2}  
+    \multicolumn{1}{|c|}{Contatos Policiais \centering } &
+    \multicolumn{1}{c|}{Pontos \centering }
+  \\  
+  \cline{1-1}\cline{2-2}  
+    \multicolumn{1}{|c|}{Seguranças \centering } &
+    \multicolumn{1}{c|}{5 \centering }
+  \\  
+  \cline{1-1}\cline{2-2}  
+    \multicolumn{1}{|c|}{Detetives \centering } &
+    \multicolumn{1}{c|}{10 \centering }
+  \\  
+  \cline{1-1}\cline{2-2}  
+    \multicolumn{1}{|c|}{Administradores \centering } &
+    \multicolumn{1}{c|}{15 \centering }
+  \\  
+  \cline{1-1}\cline{2-2}  
+    \multicolumn{1}{|c|}{Oficiais \centering } &
+    \multicolumn{1}{c|}{20 \centering }
+  \\  
+  \hline
+
+ \end{tabular} }
+\end{table}
+
+\textbf{Frequência de Assistência:}
+
+
+% ######## init table ########
+\begin{table}[h]
+ \centering
+% distancia entre a linha e o texto
+ {\renewcommand\arraystretch{1.25}
+ \begin{tabular}{ l l }
+  \cline{1-1}\cline{2-2}  
+    \multicolumn{1}{|c|}{Disponibilidade \centering } &
+    \multicolumn{1}{c|}{Pontos \centering }
+  \\  
+  \cline{1-1}\cline{2-2}  
+    \multicolumn{1}{|c|}{Raramente \centering } &
+    \multicolumn{1}{c|}{Metade \centering }
+  \\  
+  \cline{1-1}\cline{2-2}  
+    \multicolumn{1}{|c|}{Frequentemente \centering } &
+    \multicolumn{1}{c|}{Igual \centering }
+  \\  
+  \cline{1-1}\cline{2-2}  
+    \multicolumn{1}{|c|}{Usualmente \centering } &
+    \multicolumn{1}{c|}{Dobro \centering }
+  \\  
+  \cline{1-1}\cline{2-2}  
+    \multicolumn{1}{|c|}{Quase Sempre \centering } &
+    \multicolumn{1}{c|}{Triplo \centering }
+  \\  
+  \hline
+
+ \end{tabular} }
+\end{table}
+
+\textbf{Confiabilidade de Informação:}
+
+% ######## init table ########
+\begin{table}[h]
+ \centering
+% distancia entre a linha e o texto
+ {\renewcommand\arraystretch{1.25}
+ \begin{tabular}{ l l }
+  \cline{1-1}\cline{2-2}  
+    \multicolumn{1}{|c|}{Informação \centering } &
+    \multicolumn{1}{c|}{Pontos \centering }
+  \\  
+  \cline{1-1}\cline{2-2}  
+    \multicolumn{1}{|c|}{Inconfiável \centering } &
+    \multicolumn{1}{c|}{Metade \centering }
+  \\  
+  \cline{1-1}\cline{2-2}  
+    \multicolumn{1}{|c|}{Meio Confiável \centering } &
+    \multicolumn{1}{c|}{Igual \centering }
+  \\  
+  \cline{1-1}\cline{2-2}  
+    \multicolumn{1}{|c|}{Usualmente Confiável \centering } &
+    \multicolumn{1}{c|}{Dobro \centering }
+  \\  
+  \cline{1-1}\cline{2-2}  
+    \multicolumn{1}{|c|}{Completamente Confiável \centering } &
+    \multicolumn{1}{c|}{Triplo \centering }
+  \\  
+  \hline
+
+ \end{tabular} }
+\end{table}
+
+  \item[Zerado - 10 Pontos] \hfill \\ À medida que redes de informação de computadores se tornam mais abrangentes, há muitas ocasiões em que é melhor
+ser um desconhecido. Você é a areia na engrenagem. Quer por
+um acidente de nascimento, erro de registro, falha de computador,
+ou outra razão qualquer, as autoridades (e seus sistemas de
+computadores) nada sabem sobre você. Oficialmente você não existe. Não existem registros a seu respeito em nenhum relatório ou arquivo de computador no momento em que o jogo começa. Desta maneira, você está imune à maioria das imposições ou perseguições do governo (ou corporações).
+\end{description}
+
+\section{Desvantagens}
+
+\begin{description}
+   \item[Vício - Variável] \hfill \\ Em muitos dos futuros possíveis, persistiram as tendências atuais
+no sentido de legalização das drogas. Muitas drogas (talvez todas) se
+não foram totalmente legalizadas, pelo menos deixaram de ser crime. À
+medida que as drogas se tornaram parte integrante da sociedade, os
+fornecedores e engenheiros químicos tiveram que produzir um sortimento
+maior de drogas cada vez mais intrigantes para acompanhar o
+desenvolvimento de sua clientela saturada.
+A maior parte destas novas drogas foi feita sob medida para criar o
+hábito em quem usa, depois de apenas uma dose. O
+GM pode criar novas drogas adaptadas à sua campanha, mas deve
+certificar-se de que qualquer droga tenha algum efeito pernicioso com
+uso prolongado ou com sua suspensão — caso contrário ela deixará de
+ser uma desvantagem!
+
+\textbf{Custo:}
+% ######## init table ########
+\begin{table}[h]
+ \centering
+% distancia entre a linha e o texto
+ {\renewcommand\arraystretch{1.25}
+ \begin{tabular}{ l l }
+  \cline{1-1}\cline{2-2}  
+    \multicolumn{1}{|c|}{Custo \centering } &
+    \multicolumn{1}{c|}{Pontos \centering }
+  \\  
+  \cline{1-1}\cline{2-2}  
+    \multicolumn{1}{|c|}{Barato \centering } &
+    \multicolumn{1}{c|}{-5 \centering }
+  \\  
+  \cline{1-1}\cline{2-2}  
+    \multicolumn{1}{|c|}{Caro \centering } &
+    \multicolumn{1}{c|}{-10 \centering }
+  \\  
+  \cline{1-1}\cline{2-2}  
+    \multicolumn{1}{|c|}{Muito Caro \centering } &
+    \multicolumn{1}{c|}{-20 \centering }
+  \\  
+  \hline
+
+ \end{tabular} }
+\end{table}
+
+\textbf{Efeitos:}
+% ######## init table ########
+\begin{table}[h]
+ \centering
+% distancia entre a linha e o texto
+ {\renewcommand\arraystretch{1.25}
+ \begin{tabular}{ l l }
+  \cline{1-1}\cline{2-2}  
+    \multicolumn{1}{|c|}{Efeito \centering } &
+    \multicolumn{1}{c|}{Pontos \centering }
+  \\  
+  \cline{1-1}\cline{2-2}  
+    \multicolumn{1}{|c|}{Alucinógena \centering } &
+    \multicolumn{1}{c|}{-5 \centering }
+  \\  
+  \cline{1-1}\cline{2-2}  
+    \multicolumn{1}{|c|}{Incapacitante \centering } &
+    \multicolumn{1}{c|}{-10 \centering }
+  \\  
+  \cline{1-1}\cline{2-2}  
+    \multicolumn{1}{|c|}{Intoxicante \centering } &
+    \multicolumn{1}{c|}{-15 \centering }
+  \\  
+  \hline
+
+ \end{tabular} }
+\end{table}
+
+\textbf{Legalidade:}
+% ######## init table ########
+\begin{table}[h]
+ \centering
+% distancia entre a linha e o texto
+ {\renewcommand\arraystretch{1.25}
+ \begin{tabular}{ l l }
+  \cline{1-1}\cline{2-2}  
+    \multicolumn{1}{|c|}{Legalidade \centering } &
+    \multicolumn{1}{c|}{Pontos \centering }
+  \\  
+  \cline{1-1}\cline{2-2}  
+    \multicolumn{1}{|c|}{Legal \centering } &
+    \multicolumn{1}{c|}{+5 \centering }
+  \\  
+  \cline{1-1}\cline{2-2}  
+    \multicolumn{1}{|c|}{Ilegal \centering } &
+    \multicolumn{1}{c|}{0 \centering }
+  \\  
+  \hline
+
+ \end{tabular} }
+\end{table}
+
+   \item[Infância ou Velhice - -20 Pontos] \hfill \\ Com os progressos da genética, biologia, imunologia e medicina, a
+longevidade aumentará no futuro. O cuidado adequado com a saúde
+torna possível o indivíduo permanecer ativo até os 80 anos ou mais, e
+viver até uma idade bem avançada. Contudo, num mundo típico cyberpunk, os melhores cuidados com a saúde só estão disponíveis para aqueles que estão por cima. Nas ruas, a presença ocasional de drogas miraculosas não consegue compensar a sujeira e o estresse generalizado, e o cuidado com a saúde está no mesmo nível ou até mesmo abaixo do que existia em 1990.
+
+    \item[Aparência - -5 Pontos] \hfill \\ Num mundo em que as pessoas podem permitir-se rostos monstruosos
+ou fantásticos, é provável que aumente o padrão de “feiúra” verdadeira.
+Um nariz quebrado e a falta de um dente podem não ser perceptíveis
+quando o leão-de-chácara do nightclub é um gnomo verde com mais de
+dois metros de altura. Não há nenhum padrão “absoluto” de feiúra.
+É também possível que o “enfeiamento” deliberado seja
+desconhecido, e que quase todos se modifiquem para obter uma boa
+aparência. Uma falha relativamente pequena poderia ser qualificada
+como “não atraente”.
+
+    \item[Compulsão - -5 a -15 Pontos] \hfill \\ O gênero Cyberpunk oferece muitas possibilidades interessantes
+para esta desvantagem. Muitas delas — mostrar e esconder as garras navalhas,
+ranger as engrenagens, tirar um dos olhos para examiná-lo
+com o outro — se aproximam da desvantagem de Hábitos Detestáveis.
+Entrar em sistemas de computadores pode ser visto como uma
+Compulsão, especialmente se o hacker o fizer pelo prazer de derrotar as
+melhores mentes de segurança do mundo e não para violar e pilhar os
+bancos de dados ou levar vultosas somas em dinheiro. O mesmo pode ser
+dito de uma animosidade contra um certo indivíduo, governo ou corporação;
+um personagem poderia ser capaz de funcionar normalmente em todos os
+outros aspectos, mas não é capaz de sair de um edifício ou sair de um banco
+de dados sem grafitar mensagens obcenas sobre uma grande coorporação.    
+
+    \item[Código de Honra - -5 Pontos] \hfill \\  O “Código de Honra dos Piratas” é adequado para as gangues de rua.
+Um novo Código de Honra, apropriado para tipos do submundo em
+qualquer campanha, é “Subornado”. Ele vale -5 pontos. Não importa
+quão desonesto ou corrupto possa ser tal indivíduo em suas negociações
+normais, pode-se confiar que manterá sua palavra uma vez que tenha
+aceito o pagamento. Se for forçado a falar ou trair de alguma forma seu
+“cliente” (e sobreviver à experiência), fará tudo o que puder para avisar
+a pessoa que comprou sua lealdade, e devolverá seu pagamento. 
+
+    \item[Hábitos Detestáveis - -5 a -15 Pontos] \hfill \\ A desagregração da estrutura social em um mundo cyberpunk
+significa que algumas práticas que hoje em dia são totalmente ilegais,
+serão simplesmente desagradáveis daqui a 50 anos. Um refugo social
+poderia ter o Hábito Detestável “de usar gatos para praticar tiro-aoalvo
+enquanto caminha pelas ruas”.
+
+    \item[Pacifismo - -15 Pontos] \hfill \\ Um tipo especial e bem limitado de Pacifismo é “não mataria
+ninguém”. Em outras palavras, a pessoa não se vende para matar, e
+não matará nem mutilará outras pessoas a não ser que estejam
+tentando matá-lo...
+
+    \item[Estigma Social - -5 a -20 Pontos] \hfill \\ Provavelmente haverá Estigmas Sociais novos no mundo de
+cada GM. Além dos óbvios estigmas raciais/econômicos, poderia
+também haver uma reação negativa associada aos replicantes, assim como às massas desempregadas de um grande subúrbio urbano ou ao trabalhador maltrapilho.
+
+    \item[Amnésia - -10 ou -25 Pontos] \hfill \\ Você perdeu a memória — não é capaz de se lembrar parcialmente (ganhando 10 pontos) ou totalmente (ganhando 25 pontos) de sua vida pregressa, inclusive seu nome.
+    
+    \item[Ciberrejeição - -10 ou -25 Pontos] \hfill \\ Seu sistema imunológico oferece resistência a qualquer
+implante ciber-tecnológico — seu corpo rejeita automaticamente
+este tipo de coisa como corpos estranhos. Isto inclui soquetes de
+chips, tomadas, etc. Caso você perca qualquer parte de seu
+corpo, ela terá que ser substituída com um clone desenvolvido a
+partir de seus próprios tecidos — se não for possível, azar!
+Caso cyberware seja uma coisa relativamente incomum na
+campanha (opção do GM), esta é uma desvantagem de -10
+pontos. Se a tecnologia ciborgue for comum ou necessária à
+rotina diária, é uma desvantagem de -25 pontos.
+        
+    \item[Doente Terminal - -50, -75 ou -100 Pontos] \hfill \\ Você está para morrer... A maioria das vezes isto se deve a
+algum tipo de doença grave, mas poderia também significar um
+artefato explosivo irremovível implantado na base de seu crânio,
+um pacto suicida inquebrável, ou qualquer coisa que resulte em
+sua morte.
+O custo em pontos é determinado pelo tempo que lhe resta.
+Um mês (ou menos) vale 100 pontos (e é melhor você agir
+rápido!). Mais que um mês mas não chegando a um ano vale 75
+pontos, e de um a dois anos vale 50 pontos. Mais de dois anos não
+vale nada — todo mundo corre o risco de ser atropelado por um
+caminhão em dois anos!
+
+   \item[Maníaco-Depressivo - -20 Pontos] \hfill \\ O seu estado de espírito parece repousar numa gangorra —
+você oscila entre um entusiasmo borbulhante e uma retração
+melancólica. Jogue um d6 no início de cada sessão de jogo. Se o
+resultado estiver entre 1 a 3 você está em sua fase Eufórica; entre
+4 e 6 indica Depressão. A partir daí, em um dado período de tempo, você
+deve jogar um d20. Se o resultado for menor ou igual a 10 seu estado
+de espírito começa a mudar.
+
+    \item[Incorporeidade - -100 Pontos] \hfill \\ Você não tem membros, órgãos sensoriais, sistema
+cardiovascular ou gastrointestinal, etc. Você é um cérebro
+desincorporado, que necessita que todos os sentidos lhe sejam
+transmitidos por fios. Seu tecido cerebral tem que ser alimentado
+por uma substância nutriente artificial. Este sistema de apoio inclui um plugue e uma interface padrão.
+
+    \item[Circunspecção - -10 Pontos] \hfill \\ Você nunca entende as piadas, e pensa que todo mundo está
+realmente sério o tempo todo. Da mesma forma, você nunca faz
+piadas, e está verdadeiramente sério o tempo todo.
+
+    \item[Vida Loka - -15 Pontos] \hfill \\ Às vezes você não se importa se vai viver ou morrer. Você
+não tem um instinto suicida, mas corre riscos insensatos frente a
+um perigo mortal. Ao enfrentar uma situação de perigo de vida (pilotar um veículo em chamas, assaltar gelo negro, encarar a
+gangue inteira duma rua estando armado com uma escova de
+dentes, etc.) você tem que ser bem sucedido num teste de IQ antes
+de bater em retirada ou evitar qualquer
+outro tipo de comportamento meio insano e suicida. Você é evitado por pessoas sensatas.
+
+    \item[Boemia Compulsiva - -5 Pontos] \hfill \\ Você é um arroz-de-festa. Você tem que procurar uma reunião
+social pelo menos uma vez por dia, e participar pelo menos por uma
+hora. Você provará quase qualquer alucinógeno sem pensar duas
+vezes, e não é especialmente seletivo quanto a parceiros românticos
+— você aprecia música tocada bem alto e e mulheres (e/ou ou
+homens) quentes! Você é daquele que começa o dia com cerveja e
+sucrilhos. Se encontrar uma festa que você poderia evitar por algum
+motivo, terá que ser bem sucedido num teste de IQ para conseguir se
+abster de participar.
+
+    \item[Segredo - -5 a -30 Pontos] \hfill \\ Um segredo é algum aspecto de sua vida (ou de seu passado) que
+você tem que manter escondido, como uma Identidade Secreta. A informação, se for tornada
+pública, poderia prejudicar sua reputação, arruinar sua carreira,
+destruir suas amizades, e possivelmente até ameaçar sua vida!
+
+% ######## init table ########
+\begin{table}[h]
+ \centering
+% distancia entre a linha e o texto
+ {\renewcommand\arraystretch{1.25}
+ \begin{tabular}{ l l }
+  \cline{1-1}\cline{2-2}  
+    \multicolumn{1}{|c|}{Nível de Segredo \centering } &
+    \multicolumn{1}{c|}{Pontos \centering }
+  \\  
+  \cline{1-1}\cline{2-2}  
+    \multicolumn{1}{|c|}{Embaraço Sério \centering } &
+    \multicolumn{1}{c|}{-5 \centering }
+  \\  
+  \cline{1-1}\cline{2-2}  
+    \multicolumn{1}{|c|}{Rejeição Total \centering } &
+    \multicolumn{1}{c|}{-10 \centering }
+  \\  
+  \cline{1-1}\cline{2-2}  
+    \multicolumn{1}{|c|}{Prisão ou Exílio \centering } &
+    \multicolumn{1}{c|}{-20 \centering }
+  \\  
+  \cline{1-1}\cline{2-2}  
+    \multicolumn{1}{|c|}{Perigo de Morte \centering } &
+    \multicolumn{1}{c|}{-30 \centering }
+  \\  
+  \hline
+
+ \end{tabular} }
+\end{table}
+
+    \item[Doença Contagiosa - -5 Pontos] \hfill \\ Você contraiu algum tipo de bactéria contagiosa resistente a
+antibióticos, retrovirus ou doença semelhante. A doença é transmitida
+somente por contato físico, sem proteção. A doença não é fatal — pelo menos
+imediatamente — mas pode produzir sintomas físicos (deixados à
+cargo da imaginação do jogador ou do GM).
+
+    \item[Marca - -1 a -15 Pontos] \hfill \\ Muitos heróis e vilões cyberpunk têm um símbolo especial
+— uma Marca que deixam na cena do crime, como forma de
+“assinar sua obra”. Para um street op, isto seria uma marca física;
+para um netrunner seria uma mensagem especial ou estilo de
+trabalhar.
+
+% ######## init table ########
+\begin{table}[h]
+ \centering
+% distancia entre a linha e o texto
+ {\renewcommand\arraystretch{1.25}
+ \begin{tabular}{ l l }
+  \cline{1-1}\cline{2-2}  
+    \multicolumn{1}{|c|}{Característica da Marca \centering } &
+    \multicolumn{1}{c|}{Pontos \centering }
+  \\  
+  \cline{1-1}\cline{2-2}  
+    \multicolumn{1}{|c|}{Simples \centering } &
+    \multicolumn{1}{c|}{-1 \centering }
+  \\  
+  \cline{1-1}\cline{2-2}  
+    \multicolumn{1}{|c|}{Compulsiva \centering } &
+    \multicolumn{1}{c|}{-5 \centering }
+  \\  
+  \cline{1-1}\cline{2-2}  
+    \multicolumn{1}{|c|}{Incriminadora \centering } &
+    \multicolumn{1}{c|}{-10 \centering }
+  \\  
+  \cline{1-1}\cline{2-2}  
+    \multicolumn{1}{|c|}{Elaborada \centering } &
+    \multicolumn{1}{c|}{-15 \centering }
+  \\  
+  \hline
+ \end{tabular} }
+\end{table}
+
+
+
+\section{Perícias}
+
+\begin{description}
+    \item[Conhecimento do Terreno/Ciberespaço - IQ+4 - 12 Pontos] \hfill \\ Esta perícia dá a você domínio numa área particular do mundo físico ou do mundo virtual. Esta perícia pode não estar disponível em todas as campanhas — nem todos os mundos têm uma rede ciberespacial.
+    \item[Eletrônica (Biônica) - IQ+5 - 20 Pontos] \hfill \\ Esta perícia permite que você trabalhe no circuito eletrônico
+especializado que compõe os equipamentos biônicos. Isto também
+inclui a manutenção e reparo de cyberdecks e de outros sistemas
+de interface neural.
+    \item[Mecânica (Biônica) - IQ+5 - 20 Pontos] \hfill \\ Esta perícia permite que você repare a parte mecânica de
+equipamento cibernético. Para ser um técnico ciborgue completo
+necessita-se desta perícia e de Eletrônica (Biônica), acima.
+    \item[Trato-Social - IQ+4 - 12 Pontos] \hfill \\ Numa campanha em que níveis sociais diferentes podem
+parecer como se fossem mundos completamente distintos, pode
+ser difícil representar um membro duma outra classe. Para que um coprporado passe por um op — ou vice-versa — não é fácil!
+    \item[Sobrevivência (Urbana) - Percepção+5 - 20 Pontos] \hfill \\ Esta perícia cobre a parte física do problema de permanecer
+vivo num ambiente urbano, quer seja ele superpopuloso ou
+vazio. Os problemas sociais de sobrevivência numa cidade são
+cobertos pela perícia Manha. Um especialista em sobrevivência
+urbana seria capaz de (por exemplo) localizar água de chuva
+limpa; localizar bueiros por cima ou por baixo; localizar
+rapidamente entradas, saídas, escadarias, etc., dos edifícios;
+reconhecer e evitar áreas fisicamente perigosas, como edifícios
+com risco de desmoronar; fazer e ler mapas da cidade, e
+encontrar a saída de áreas desconhecidas da cidade; achar um
+lugar quente para dormir fora em tempo frio; e localizar edifícios
+ou empresas comuns sem perguntar a ninguém, apenas por sua
+“percepção” de como as cidades são dispostas.
+    \item[Hacking de computador - IQ+4 - 24 Pontos] \hfill \\ Esta perícia é usada para “entrar” num sistema . Não é preciso um cyberdeck — apenas um terminal comum com acesso ao sistema (diretamente ou através de uma rede de
+comunicações). No entanto, a perícia pode ser usada junto com um cyberdeck.
+    \item[Operação de Cyberdeck - IQ+4 - 24 Pontos] \hfill \\ Esta é a habilidade de operar um cyberdeck com controle
+neural; existe apenas em cenários onde existe uma Rede. Ela
+controla quão bem você se move pela rede, quantos programas
+você é capaz de controlar ao mesmo tempo, e muitas outras
+variáveis. A fim de manipular a Rede de formas diferentes da planejada
+por programadores originais, você precisará tanto desta perícia
+como de Hacking de computador.
+    \item[Produção de Mídia - IQ+4 - 20 Pontos] \hfill \\ Você tem familiaridade com equipamento de produção de mídia, e pode dirigir com competência um show (TV, holovídeo, filme, etc.). Esta perícia pode ser muito útil num cenário de meios de comunicação de massa.
+    
+
+
+\end{description}
+
+\section{Inventário}
+
+Numa campanha mais realista, os jogadores começam com um saldo entre \$500 e \$2000. Segue a lista recomendada de loots com que cada jogador pode começar: os \textbf{vermelhos} são focados na ofensiva, os \textbf{azuis} são balanceados e os \textbf{verdes} são defensivos.\\
+
+\begin{description}
+    \item[Samurai Urbano] \hfill \\ 
+        \begin{description}
+            \item[Vermelho] \hfill \\ Kimono (0kg, sem modificações), Katana I (1kg, rolagem e dano sem modificações), Katana II (2kg, Dificuldade de Força + 2, Dano + 2).
+            \item[Azul] \hfill \\ Kimono (0kg, sem modificações), Katana I (1kg, rolagem e dano sem modificações), Vaporizador, um gerador de granada de fumaça recarregável.
+            \item[Verde] \hfill \\ Yoroi, uma armadura samurai (4kg, esquiva - 2), Katana I (1kg, rolagem e dano sem modificações).
+        \end{description}
+    \item[Policial (Policial Mau)] \hfill \\ 
+        \begin{description}
+            \item[Vermelho] \hfill \\ Uniforme Militar (0kg, sem modificações), Pistola (1kg, máximo de 2 tiros por turno, munição de 7 balas, 1 turno para resfriamento), Fuzil (3,5kg, máximo de 4 tiros por rodada, munição de 20 balas, 2 turnos para recarga).
+            \item[Azul] \hfill \\ Uniforme Militar (0kg, sem modificações), Pistola (1kg, máximo de 2 tiros por turno, munição de 7 balas, 1 turno para resfriamento), Silenciador (0,5kg).
+            \item[Verde] \hfill \\ Colete à prova de balas (2kg, esquiva - 2), Pistola (1kg, máximo de 2 tiros por turno, munição de 7 balas, 1 turno para resfriamento).
+        \end{description}
+    \item[Netrunner (Hacker)] \hfill \\ 
+        \begin{description}
+            \item[Vermelho] \hfill \\ Celular com Superusuário, conseguindo controle sobre uma máquina (0,1kg), Deck com Armador, capaz de spawnar armas na matrix (1kg).
+            \item[Azul] \hfill \\ Celular com Transgressor, capaz de analisar e se infiltrar em uma máquina (0,1kg), Deck com Imitador, capaz de mudar a aparência do avatar na matrix (1kg).
+            \item[Verde] \hfill \\ Celular com Sonda, capaz de analisar por completo uma máquina (0,1kg), Deck com Arquiteto, capaz de alterar espaços na matrix (1kg).
+        \end{description}
+\end{description}
+    
+
+    
+
+    
+
+    
+
+\end{description}
+
+\end{document}
