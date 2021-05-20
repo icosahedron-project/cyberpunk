@@ -4,7 +4,7 @@
   Cyberpunk 
 </h1>
 
-Repositório para sessões de RPG, em Português. Este material aborda um universo de fantasias Cyberpunk.
+Repositório para sessões de RPG, em português. Este material aborda um universo de fantasias Cyberpunk.
 
 ### Começando
 Clone o repositório e abra o arquivo ```book.tex``` com uma IDE LaTex.
@@ -23,10 +23,9 @@ Faça um pull request e deixe claro quais alterações foram feitas e quais bugs
 
  Se você contribuiu com este projeto, seu nome será colocado aqui. Bem vindo ao hall da fama :)
 
-### Acknowledgments
+### Conhecimentos Desejáveis
 * LaTex e suas bibliotecas
-* RPG
-* Disposição para aprender, pesquisar e desenvolver (sem preguiça!)
+* RPG de Mesa
 
 ### Licenses
 * **MIT License** - [*Ver detalhes*](./LICENSE.txt)
