@@ -23,7 +23,7 @@ Faça um pull request e deixe claro quais alterações foram feitas e quais bugs
 
  Se você contribuiu com este projeto, seu nome será colocado aqui. Bem vindo ao hall da fama :)
 
-### Conhecimentos Desejáveis
+### Conhecimentos desejáveis
 * LaTex e suas bibliotecas
 * RPG de Mesa
 
