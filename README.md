@@ -1,8 +1,10 @@
 <h1 align="center">
+  <img width=60 height=67.21 src="./icon.png" />
+  
   Cyberpunk 
 </h1>
 
-Repositório para sessões de RPG em Português. Este material aborda um universo de fantasias punk como o Cyberpunk, o Steampunk e o Dieselpunk.
+Repositório para sessões de RPG, em Português. Este material aborda um universo de fantasias Cyberpunk.
 
 ### Começando
 Clone o repositório e abra o arquivo ```book.tex``` com uma IDE LaTex.
