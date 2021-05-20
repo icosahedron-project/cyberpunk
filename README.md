@@ -18,14 +18,5 @@ Ter uma IDE LaTex instalado na máquina.
 ### Contribuindo
 Faça um pull request e deixe claro quais alterações foram feitas e quais bugs persistem. Não introduza bugs, seja proativo!
 
-### Contributors
-* **Amintas Victor** - *Trabalho inicial* - [GitHub](https://github.com/amintasvrp)
-
- Se você contribuiu com este projeto, seu nome será colocado aqui. Bem vindo ao hall da fama :)
-
-### Conhecimentos desejáveis
-* LaTex e suas bibliotecas
-* RPG de Mesa
-
 ### Licenses
 * **MIT License** - [*Ver detalhes*](./LICENSE.txt)
