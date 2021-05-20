@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img width=60 height=67.21 src="./icon.png" />
+  <img width=60 height=67.21 src="assets/icon.png" />
   
   Cyberpunk 
 </h1>
