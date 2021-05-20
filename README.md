@@ -6,17 +6,17 @@
 
 Repositório para sessões de RPG, em português. Este material aborda um universo de fantasias Cyberpunk.
 
-### Começando
+## Começando
 Clone o repositório e abra o arquivo ```book.tex``` com uma IDE LaTex.
 
 #### Pré-Requisitos
 Ter uma IDE LaTex instalado na máquina. 
 
-### Construído com...
+## Construído com...
 * [LaTex](https://www.latex-project.org/) - Um sistema de preparação de documentos
 
-### Contribuindo
+## Contribuindo
 Faça um pull request e deixe claro quais alterações foram feitas e quais bugs persistem. Não introduza bugs, seja proativo!
 
-### Licença
+## Licença
 * **MIT License** - [*Ver detalhes*](./LICENSE.txt)
